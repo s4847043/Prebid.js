@@ -85,6 +85,7 @@ describe('adapter', () => {
       expect(requests[1].data.auctionId).to.equal(bidderRequests.auctionId);
       expect(requests[1].data.ssspUid).to.equal(SSSPUID);
       expect(requests[1].data.pubProvidedIds).to.haveOwnProperty(bidRequestWithUser.userId.pubProvidedId[0].source);
+      expect(requests[1].data.pubProvidedIds[bidRequestWithUser.userId.pubProvidedId[0].source]).has.lengthOf(2)
     });
   });
 });
