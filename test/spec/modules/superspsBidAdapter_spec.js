@@ -20,9 +20,9 @@ describe('adapter', () => {
     };
 
     const bidRequestWithUser = {
-      adUnitCode: 'adunitcode',
-      auctionId: 'randomActionId',
-      bidId: 'randomBidId',
+      adUnitCode: 'adunitcode22',
+      auctionId: 'randomActionId22',
+      bidId: 'randomBidId22',
       mediaTypes: { banner: { sizes: [[300, 250]] } },
       userId: {
         pubProvidedId: [
@@ -57,28 +57,34 @@ describe('adapter', () => {
       },
     };
 
-    const request = spec.buildRequests(
+    const requests = spec.buildRequests(
       [bidRequest, bidRequestWithUser],
       bidderRequests
     );
+
+
+    it('has 2 requests', function () {
+      expect(requests).has.lengthOf(2)
+    });
+
     it('sends bid to defined url via POST', function () {
-      expect(request[0].method).to.equal('POST');
-      expect(request[0].url).to.equal(URL);
+      expect(requests[0].method).to.equal('POST');
+      expect(requests[0].url).to.equal(URL);
     });
 
     it('data sent are correct', () => {
-      expect(request[0].data.adUnitCode).to.equal(bidRequest.adUnitCode);
-      expect(request[0].data.bidId).to.equal(bidRequest.bidId);
-      expect(request[0].data.auctionId).to.equal(bidderRequests.auctionId);
-      expect(request[0].data.ssspUid).to.equal(SSSPUID);
+      expect(requests[0].data.adUnitCode).to.equal(bidRequest.adUnitCode);
+      expect(requests[0].data.bidId).to.equal(bidRequest.bidId);
+      expect(requests[0].data.auctionId).to.equal(bidderRequests.auctionId);
+      expect(requests[0].data.ssspUid).to.equal(SSSPUID);
     });
 
     it('data with user sent are correct', () => {
-      expect(request[1].data.adUnitCode).to.equal(bidRequestWithUser.adUnitCode);
-      expect(request[1].data.bidId).to.equal(bidRequestWithUser.bidId);
-      expect(request[1].data.auctionId).to.equal(bidderRequests.auctionId);
-      expect(request[1].data.ssspUid).to.equal(SSSPUID);
-      expect(request[1].data.pubProvidedIds).to.haveOwnProperty(bidRequestWithUser.userId.pubProvidedId[0].source);
+      expect(requests[1].data.adUnitCode).to.equal(bidRequestWithUser.adUnitCode);
+      expect(requests[1].data.bidId).to.equal(bidRequestWithUser.bidId);
+      expect(requests[1].data.auctionId).to.equal(bidderRequests.auctionId);
+      expect(requests[1].data.ssspUid).to.equal(SSSPUID);
+      expect(requests[1].data.pubProvidedIds).to.haveOwnProperty(bidRequestWithUser.userId.pubProvidedId[0].source);
     });
   });
 });
